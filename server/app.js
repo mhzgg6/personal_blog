@@ -5,12 +5,24 @@ const views = require('koa-views')
 const logger = require('koa-logger')
 const { join } = require('path')
 const cors = require('koa-cors')
+const session = require('koa-session')
+const body = require('koa-body')
 
 const app = new Koa
 
 app.use( logger() )
 //  解决跨域问题
 app.use( cors() )
+//  处理post请求
+app.use( body() )
+//  session 的配置对象
+// const CONFIG = {
+
+// }
+
+//  session
+// app.use( session() )
+
 app.use( static( join(__dirname, "routers") ))
 app.use( views( join(__dirname, "routers"),{
     extension: 'pug'

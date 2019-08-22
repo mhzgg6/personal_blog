@@ -45,7 +45,7 @@
               <svg class="icon tip" aria-hidden="true">
                 <use xlink:href="#iconnavicon-grkh"></use>
               </svg>
-              <input type="text" placeholder="用户名">
+              <input type="text" placeholder="用户名" v-model="username">
             </div>
           </div>
           <div class="item">
@@ -53,7 +53,7 @@
               <svg class="icon tip" aria-hidden="true">
                 <use xlink:href="#iconmima"></use>
               </svg>
-              <input type="text" placeholder="密码">
+              <input type="text" placeholder="密码" v-model="password">
             </div>
           </div>
           <div class="item">
@@ -61,11 +61,11 @@
               <svg class="icon tip" aria-hidden="true">
                 <use xlink:href="#icontubiao209"></use>
               </svg>
-              <input type="text" placeholder="邮箱">
+              <input type="text" placeholder="邮箱" v-model="email">
             </div>
           </div>
           <div class="item">
-            <button>注册</button>
+            <button @click="registered()">注册</button>
           </div>
         </div>
       </div>
@@ -75,9 +75,34 @@
 
 <script>
 // @ is an alias to /src
-
+//  对密码进行加密
+const encrypt = require('../../unit/crypto')
 export default {
   name: 'login',
+  data() {
+    return{
+      username: '',
+      password: '',
+      email: ''
+    }
+  },
+  methods: {
+    registered() {
+      //  用户数据
+      let userData = {}
+      userData.username = this.username
+      userData.password = encrypt(this.password)
+      userData.email = this.email
+
+      this.$axios.post('http://localhost:3000/api/reg', userData)
+        .then( res => {
+          console.log(res)
+        })
+        .catch( err => {
+          console.log(err)
+        })
+    }
+  }
 }
 </script>
 

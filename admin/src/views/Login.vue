@@ -42,7 +42,7 @@
             </div>
           </div>
           <div class="item">
-            <button>登陆</button>
+            <button @click="getData()">登陆</button>
           </div>
         </div>
       </div>
@@ -68,7 +68,7 @@
 
 <script>
 // @ is an alias to /src
-
+const encrypt = require('../../unit/crypto')
 export default {
   name: 'registered',
   data() {
@@ -78,14 +78,20 @@ export default {
     }
   },
   created () {
-    this.getData()
   },
   methods: {
     getData() {
-      this.$axios.get('http://localhost:3000/api/login')
+      let user = {}
+      user.username = this.username
+      user.password = encrypt(this.password)
+
+      this.$axios.post('http://localhost:3000/api/login',user)
         .then( (res) =>{
           console.log(res)
         })
+        .catch( (err) => {
+          console.log(err)
+        }) 
     }
   }
 }
