@@ -45,11 +45,7 @@
               <svg class="icon tip" aria-hidden="true">
                 <use xlink:href="#iconnavicon-grkh"></use>
               </svg>
-<<<<<<< HEAD
               <input type="text" placeholder="用户名" v-model="username">
-=======
-              <input type="text" placeholder="用户名">
->>>>>>> 9ee201d9aabf9f5f1f99e06eb45c71dacf0e8e1b
             </div>
           </div>
           <div class="item">
@@ -57,11 +53,7 @@
               <svg class="icon tip" aria-hidden="true">
                 <use xlink:href="#iconmima"></use>
               </svg>
-<<<<<<< HEAD
               <input type="text" placeholder="密码" v-model="password">
-=======
-              <input type="text" placeholder="密码">
->>>>>>> 9ee201d9aabf9f5f1f99e06eb45c71dacf0e8e1b
             </div>
           </div>
           <div class="item">
@@ -69,19 +61,11 @@
               <svg class="icon tip" aria-hidden="true">
                 <use xlink:href="#icontubiao209"></use>
               </svg>
-<<<<<<< HEAD
               <input type="text" placeholder="邮箱" v-model="email">
             </div>
           </div>
           <div class="item">
             <button @click="registered()">注册</button>
-=======
-              <input type="text" placeholder="邮箱">
-            </div>
-          </div>
-          <div class="item">
-            <button>注册</button>
->>>>>>> 9ee201d9aabf9f5f1f99e06eb45c71dacf0e8e1b
           </div>
         </div>
       </div>
@@ -91,7 +75,6 @@
 
 <script>
 // @ is an alias to /src
-<<<<<<< HEAD
 //  对密码进行加密
 const encrypt = require('../../unit/crypto')
 export default {
@@ -120,11 +103,6 @@ export default {
         })
     }
   }
-=======
-
-export default {
-  name: 'login',
->>>>>>> 9ee201d9aabf9f5f1f99e06eb45c71dacf0e8e1b
 }
 </script>
 

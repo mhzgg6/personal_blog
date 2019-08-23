@@ -42,11 +42,7 @@
             </div>
           </div>
           <div class="item">
-<<<<<<< HEAD
             <button @click="getData()">登陆</button>
-=======
-            <button>登陆</button>
->>>>>>> 9ee201d9aabf9f5f1f99e06eb45c71dacf0e8e1b
           </div>
         </div>
       </div>
@@ -72,11 +68,7 @@
 
 <script>
 // @ is an alias to /src
-<<<<<<< HEAD
 const encrypt = require('../../unit/crypto')
-=======
-
->>>>>>> 9ee201d9aabf9f5f1f99e06eb45c71dacf0e8e1b
 export default {
   name: 'registered',
   data() {
@@ -86,7 +78,6 @@ export default {
     }
   },
   created () {
-<<<<<<< HEAD
   },
   methods: {
     getData() {
@@ -101,16 +92,6 @@ export default {
         .catch( (err) => {
           console.log(err)
         }) 
-=======
-    this.getData()
-  },
-  methods: {
-    getData() {
-      this.$axios.get('http://localhost:3000/api/login')
-        .then( (res) =>{
-          console.log(res)
-        })
->>>>>>> 9ee201d9aabf9f5f1f99e06eb45c71dacf0e8e1b
     }
   }
 }
