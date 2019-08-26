@@ -12,6 +12,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 //  axios
 import axios from 'axios'
 Vue.prototype.$axios = axios
+import '../axios/index'
 
 Vue.use(ElementUI)
 Vue.config.productionTip = false

@@ -72,13 +72,41 @@ exports.login = async ctx => {
             resolve('')
         })
     })
-    .then(data => {
+    .then(async data => {
         if(!data){
             //  密码错误
             ctx.body = {
                 msg: '密码不正确，登陆失败'
             }
         }else{
+            
+            console.log('上面', username)
+            //  用户在cookie里面设置 username 
+            //  -------------------------------------- 巨坑 设置中文cookie无效 ------------------------------
+            ctx.cookies.set('username', username, {
+                domain: 'localhost',
+                path: '/',   //cookie写入的路径
+                maxAge: 1000*60*60*1,
+                httpOnly: false,
+                overwrite: false
+                // signed: true
+            })
+            
+            //  用户在数据库的_id值
+            ctx.cookies.set('uid', data[0]._id, {
+                domain: 'localhost',
+                path: '/',
+                maxAge: 36e5,
+                httpOnly: false,     //  true 不让客户端访问这个cookie
+                overwrite: false,
+                // signed: true
+            })
+
+            ctx.session = {
+                username,
+                uid: data[0]._id
+            }
+
             //  登陆成功
             ctx.body = {
                 msg: '登陆成功'
@@ -91,4 +119,31 @@ exports.login = async ctx => {
             msg: '登陆失败'
         }
     })
+}
+
+//  确定用户状态   保持用户状态
+exports.keepLog = async (ctx, next) => {
+    console.log('进来没')
+    if( ctx.session.isNew ){//  没有session
+        if( ctx.cookies.get('username') ){
+            ctx.session = {
+                username: ctx.cookies.get('username'),
+                uid: ctx.cookies.get('uid')
+            }
+        }
+    }
+    await next()
+}
+
+//  用户退出中间件
+exports.logout = async (ctx, next) => {
+    ctx.session = null
+    ctx.cookies.set('username', null, {
+        maxAge: 0
+    })
+    ctx.cookies.set('uid', null, {
+        maxAge: 0
+    })
+
+    await next()
 }
