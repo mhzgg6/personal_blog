@@ -3,6 +3,8 @@ const User = require('../Models/user')
 const router = new Router
 //  拿到操作 user 表的逻辑对象
 const user = require('../controls/user')
+//  拿到操作 article 表的逻辑对象
+const article = require('../controls/article')
 
 //  访问主页
 router.get('/', user.keepLog, async (ctx) => {
@@ -20,5 +22,6 @@ router.get('/api/logout', user.logout, async(ctx) =>{
         msg: '退出登陆'
     }
 })
-
+//  处理用户保存文章
+router.post('/api/addArticle', user.keepLog, article.add)
 module.exports = router
