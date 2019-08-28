@@ -7,10 +7,7 @@ const user = require('../controls/user')
 const article = require('../controls/article')
 
 //  访问主页
-router.get('/', user.keepLog, async (ctx) => {
-    console.log(ctx.session.isNew)
-    ctx.body = ctx.session
-})
+router.get('/', user.keepLog, article.getList)
 
 //  处理用户注册
 router.post('/api/reg', user.reg)
@@ -24,4 +21,8 @@ router.get('/api/logout', user.logout, async(ctx) =>{
 })
 //  处理用户保存文章
 router.post('/api/addArticle', user.keepLog, article.add)
+//  处理获取文章分页列表
+router.get('/api/page/:id', article.getList)
+
+
 module.exports = router

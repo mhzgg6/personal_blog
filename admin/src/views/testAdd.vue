@@ -1,6 +1,7 @@
 <template>
     <div class="test_add">
         <button @click="add()">添加文章</button>
+        <button @click="getList()">获取文章列表</button>
     </div>
 </template>
 
@@ -14,6 +15,15 @@ export default {
                 label: 'life'
             }
             this.$axios.post('http://localhost:3000/api/addArticle', article)
+                .then( (res) =>{
+                    console.log(res)
+                })
+                .catch( (err) => {
+                    console.log(err)
+                }) 
+        },
+        getList() {
+            this.$axios.get('http://localhost:3000/api/page/1')
                 .then( (res) =>{
                     console.log(res)
                 })

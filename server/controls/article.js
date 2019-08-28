@@ -1,5 +1,7 @@
 //  拿到 db 对象创建操作article数据库的模型对象
 const Article = require('../Models/article')
+//  拿到 db 对象创建操作user数据库的模型对象
+const User = require('../Models/user')
 
 //  文章保存到数据库
 exports.add = async ctx => {
@@ -36,4 +38,29 @@ exports.add = async ctx => {
             status: 0
         }
     })
+}
+
+//  获取文章分页
+exports.getList = async ctx => {
+    
+    let page = ctx.params.id || 1
+    page--
+
+    const data = await Article
+        .find()                 //  查找所有
+        .sort('-created')       //  排序 以创建时间倒序
+        .skip(5 * page)         //  跳过多少条
+        .limit(5)               //  需要几条数据
+        .populate({
+            path: 'author',
+            select: '_id username avater'
+        })                      //  连表查询
+        .then(data => {
+            ctx.body = data
+        })
+        .catch(err => {
+            ctx.body = {
+                msg: '获取文章列表失败'
+            }
+        })
 }

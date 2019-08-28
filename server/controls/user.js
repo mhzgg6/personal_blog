@@ -104,9 +104,10 @@ exports.login = async ctx => {
 
             ctx.session = {
                 username,
-                uid: data[0]._id
+                uid: data[0]._id,
+                avater: data[0].avater
             }
-
+            console.log(ctx.session)
             //  登陆成功
             ctx.body = {
                 msg: '登陆成功'
