@@ -1,169 +1,76 @@
 <template>
     <div class="admin">
         <el-container>
-
-            <!-- 开始    侧边栏部分 -->
-            <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
-                <div class="logo">
-
-                </div>
-                <el-menu :default-openeds="['1', '3']">
-
-                <el-submenu index="1">
-                    <template slot="title"><i class="el-icon-message"></i>文章管理</template>
-                </el-submenu>
-
-                <el-submenu index="2">
-                    <template slot="title"><i class="el-icon-menu"></i>评论管理</template>
-                </el-submenu>
-
-                <el-submenu index="3">
-                    <template slot="title"><i class="el-icon-setting"></i>头像上传</template> 
-                </el-submenu>
-                </el-menu>
-            </el-aside>
-            <!-- 结束    侧边栏部分 -->
-
-            <!-- 开始    内容部分 -->
-            <el-main>
-                <el-row>
-                    <el-col :span="20">
-                        <div class="grid-content bg-purple"></div>
-                    </el-col>
-                    <el-col :span="4">
-                        <el-dropdown>
-                            <i class="el-icon-setting" style="margin-right: 15px"></i>
-                            <el-dropdown-menu slot="dropdown">
-                                <el-dropdown-item>查看</el-dropdown-item>
-                                <el-dropdown-item>退出</el-dropdown-item>
-                            </el-dropdown-menu>
-                        </el-dropdown>
-                        <div class="avater" :style="{backgroundImage: 'url(' + avaterImg + ')'}">
+            <!-- <el-header>Header</el-header> -->
+            <el-container>
+                <!-- 开始    侧边栏部分 -->
+                <el-aside width="300px" style="background-color: rgb(74, 163, 253)">
+                    <div class="logo">
+                        <h5>Personal blog</h5>
+                        <div class="avater">
+                            <img :src="avaterUrl" alt="" width="100%" height="100%">
                         </div>
-                    </el-col>
-                </el-row>
+                        <p>毛啊毛</p>
+                    </div>
+                    <el-menu :default-openeds="['1', '3']">
 
-               <el-table
-                    ref="filterTable"
-                    :data="tableData"
-                    style="width: 100%">
+                        <el-submenu index="1">
+                            <template slot="title">
+                                <i class="el-icon-message"></i>
+                                <router-link :to="{name: 'articleList'}">
+                                    <span>文章列表</span>
+                                </router-link>
+                            </template>
+                        </el-submenu>
 
-                    <el-table-column
-                    prop="date"
-                    label="日期"
-                    sortable
-                    width="180"
-                    column-key="date"
-                    :filters="[{text: '2016-05-01', value: '2016-05-01'}, {text: '2016-05-02', value: '2016-05-02'}, {text: '2016-05-03', value: '2016-05-03'}, {text: '2016-05-04', value: '2016-05-04'}]"
-                    :filter-method="filterHandler"
-                    >
-                    </el-table-column>
+                        <el-submenu index="2">
+                            <template slot="title">
+                                <i class="el-icon-menu"></i>
+                                <router-link :to="{name: 'editArticle'}">
+                                    <span>文章添加</span>
+                                </router-link>
+                            </template>
+                        </el-submenu>
 
-                    <el-table-column
-                    prop="name"
-                    label="作者"
-                    width="180">
-                    </el-table-column>
+                        <el-submenu index="3">
+                            <template slot="title"><i class="el-icon-setting"></i>头像上传</template> 
+                        </el-submenu>
+                    </el-menu>
 
-                    <el-table-column
-                    prop="address"
-                    label="文章"
-                    :formatter="formatter">
-                    </el-table-column>
+                    <!-- 用户退出 -->
+                    <div class="logout">
+                        <h5>Personal blog</h5>
+                        <p>@2019 Copyright by Mao</p>
+                    </div>
+                </el-aside>
+                <!-- 结束    侧边栏部分 -->
 
-                    <el-table-column
-                    prop="name"
-                    label="分类"
-                    width="180">
-                    </el-table-column>
+                <!-- 开始    用户状态部分 -->
+                <!-- 结束    用户状态部分 -->
 
-                    <el-table-column
-                    prop="tag"
-                    label="标签"
-                    width="100"
-                    :filters="[{ text: '家', value: '家' }, { text: '公司', value: '公司' }]"
-                    :filter-method="filterTag"
-                    filter-placement="bottom-end">
-                    <template slot-scope="scope">
-                        <el-tag
-                        :type="scope.row.tag === '家' ? 'primary' : 'success'"
-                        disable-transitions>{{scope.row.tag}}</el-tag>
-                    </template>
-                    </el-table-column>
-
-                    <el-table-column label="操作" width="180">
-                        <template slot-scope="scope">
-                            <el-button
-                            size="mini"
-                            @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-                            <el-button
-                            size="mini"
-                            type="danger"
-                            @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-                        </template>
-                    </el-table-column>
-
-                </el-table>  
-                <el-pagination
-                    small
-                    layout="prev, pager, next"
-                    :total="50">
-                </el-pagination>
-            </el-main>       
-            <!-- 结束    内容部分 -->
-
+                <!-- 开始    内容部分 -->
+                <el-main>
+                    <router-view></router-view>
+                </el-main>
+                <!-- 结束    内容部分 -->
+            </el-container>
         </el-container>
     </div>
 </template>
 
 <script>
+// import articleList from '../componnets/articleList'
 export default {
     name: 'admin',
     data() {
         const imgDir = '../assets/sign_in/'
         return {
-            avaterImg: imgDir + 'tuzi.jpg',
-            tableData: [{
-                date: '2016-05-02',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄',
-                tag: '家'
-            }, {
-                date: '2016-05-04',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1517 弄',
-                tag: '公司'
-            }, {
-                date: '2016-05-01',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1519 弄',
-                tag: '家'
-            }, {
-                date: '2016-05-03',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1516 弄',
-                tag: '公司'
-            }]
+            avaterUrl: 'https://img.zcool.cn/community/031802e5be42ab0a801209252c2403d.jpg@80w_80h_1c_1e_1o_100sh.jpg'
         }
     },
-    methods: {
-        resetDateFilter() {
-            this.$refs.filterTable.clearFilter('date');
-        },
-        clearFilter() {
-            this.$refs.filterTable.clearFilter();
-        },
-        formatter(row, column) {
-            return row.address;
-        },
-        filterTag(value, row) {
-            return row.tag === value;
-        },
-        filterHandler(value, row, column) {
-            const property = column['property'];
-            return row[property] === value;
-        }
-    }
+    // components: {
+    //     articleList
+    // }
 }
 </script>
 
@@ -173,14 +80,15 @@ export default {
     height: 100%;
 }
 .admin .el-main{
-    padding: 0;
+    width: 100%;
+    height: 100%;
+    background: #f7f8fc;
 }
-.admin .el-row{
-    height: 60px;
+.admin .el-header{
     background: skyblue;
 }
-.admin .el-row .el-col{
-    height: 100%;
+.admin .el-menu{
+    height: calc(100% - 400px);
 }
 </style>
 
@@ -189,16 +97,38 @@ export default {
     width: 100%;
     height: 100%;
     .logo{
-        width: 200px;
-        height: 60px;
-        background: skyblue;
+        width: 100%;
+        height: 300px;
+        color: #fff;
+        text-align: center;
+        h5{
+            line-height: 100px;
+            
+        }
+        .avater{
+            width: 80px;
+            height: 80px;
+            margin-left: 110px;
+            img{
+                border-radius: 50%;
+            }
+        }
+        p{
+            line-height: 60px;
+
+        }
     }
-    .avater{
-        width: 40px;
-        height: 40px;
-        > img{
-            width: 100px;
-            height: 100%;
+    .logout{
+        width: 100%;
+        height: 100px;
+        color: #fff;
+        text-align: center;
+        h5{
+            line-height: 60px;
+        }
+        p{
+            font-size: 12px;
+            line-height: 40px;
         }
     }
 }

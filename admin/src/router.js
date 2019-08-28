@@ -20,10 +20,19 @@ export default new Router({
     {
       path: '/admin',
       name: 'admin',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/Admin.vue')
+      component: () => import('./views/Admin.vue'),
+      children: [
+        {
+          path: '/admin/articleList',
+          name: 'articleList',
+          component: () => import('./componnets/articleList.vue'),
+        },
+        {
+          path: '/admin/editArticle',
+          name: 'editArticle',
+          component: () => import('./componnets/editArticle.vue'),
+        }
+      ]
     },
     {
       path: '/add',

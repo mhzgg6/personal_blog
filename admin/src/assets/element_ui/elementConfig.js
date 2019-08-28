@@ -17,7 +17,9 @@ import {
         Dropdown,
         DropdownMenu,
         DropdownItem,
-        Pagination
+        Pagination,
+        Input,
+        Upload
   } from 'element-ui'
   
   export default {
@@ -41,5 +43,7 @@ import {
         V.use(DropdownMenu)
         V.use(DropdownItem)
         V.use(Pagination)
+        V.use(Input)
+        V.use(Upload)
     }
   }
