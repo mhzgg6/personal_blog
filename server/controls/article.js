@@ -2,6 +2,8 @@
 const Article = require('../Models/article')
 //  拿到 db 对象创建操作user数据库的模型对象
 const User = require('../Models/user')
+//  拿到 db 对象创建操作comment数据库的模型对象
+const Comment = require('../Models/comment')
 
 //  文章保存到数据库
 exports.add = async ctx => {
@@ -62,5 +64,26 @@ exports.getList = async ctx => {
             ctx.body = {
                 msg: '获取文章列表失败'
             }
+        })
+}
+
+exports.details = async ctx => {
+    //  取到动态路由的id
+    const _id = ctx.params.id
+
+    const article = await Article
+        .findById(_id)
+        .populate('author', 'username')
+        .then(data => data)
+
+        console.log(article)
+
+    const comment = await Comment
+        .findById({article: _id})   //  与文章id对应 
+        .sort('-created')
+        .populate('from', 'username avater')
+        .then(data => data)
+        .catch(err => {
+            console.log(err)
         })
 }

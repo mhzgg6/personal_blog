@@ -5,6 +5,8 @@ const router = new Router
 const user = require('../controls/user')
 //  拿到操作 article 表的逻辑对象
 const article = require('../controls/article')
+//  拿到操作 article 表的逻辑对象
+const comment = require('../controls/comment')
 
 //  访问主页
 router.get('/', user.keepLog, article.getList)
@@ -23,6 +25,9 @@ router.get('/api/logout', user.logout, async(ctx) =>{
 router.post('/api/addArticle', user.keepLog, article.add)
 //  处理获取文章分页列表
 router.get('/api/page/:id', article.getList)
-
+//  处理获取文章详情页
+router.get('/api/article/:id', user.keepLog , article.details)
+//  处理添加评论
+router.get('/api/addComment', user.keepLog, comment.add)
 
 module.exports = router
