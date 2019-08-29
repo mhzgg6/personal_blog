@@ -3,43 +3,103 @@
     <!-- 开始    内容部分 -->
     <h5>新增文章</h5>
 
-    <div class="article_title">
-      <span>
-        标题：
-      </span>
-      <el-input v-model="title" placeholder="文章标题"></el-input>
+    <div class="article article_title">
+      <el-row>
+        <el-col>
+          <span>
+            <el-tooltip class="item" effect="dark" content="必填" placement="top-start">
+              <i>*</i>
+            </el-tooltip>
+            标题：
+          </span>
+        </el-col>
+        <el-col>
+          <el-input v-model="title" placeholder="文章标题"></el-input>
+        </el-col>
+      </el-row>
     </div>
 
-    <div class="article_image">
-      <el-upload
-      class="avatar-uploader"
-      action="https://jsonplaceholder.typicode.com/posts/"
-      :show-file-list="false"
-      :on-success="handleAvatarSuccess"
-      :before-upload="beforeAvatarUpload">
-        <img v-if="imageUrl" :src="imageUrl" class="avatar">
-        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-      </el-upload>
+    <div class="article article_image">
+      <el-row>
+        <el-col>
+          <span>
+            <el-tooltip class="item" effect="dark" content="必填" placement="top-start">
+              <i>*</i>
+            </el-tooltip>
+            头像：
+          </span>
+        </el-col>
+        <el-col>
+          <el-upload
+            class="avatar-uploader"
+            action="https://jsonplaceholder.typicode.com/posts/"
+            :show-file-list="false"
+            :on-success="handleAvatarSuccess"
+            :before-upload="beforeAvatarUpload">
+              <img v-if="imageUrl" :src="imageUrl" class="avatar">
+              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+          </el-upload>
+        </el-col>
+      </el-row>
     </div>
     
-    <div class="article_labels">
-      <el-tag type="success">标签二</el-tag>
-      <el-tag type="info">标签三</el-tag>
-      <el-tag type="warning">标签四</el-tag>
-      <el-tag type="danger">标签五</el-tag>
+    <div class="article article_labels">
+      <el-row>
+        <el-col>
+          <span>
+            <el-tooltip class="item" effect="dark" content="必填" placement="top-start">
+              <i>*</i>
+            </el-tooltip>
+            标签：
+          </span>
+        </el-col>
+        <el-col>
+          <el-tag type="success">标签二</el-tag>
+          <el-tag type="info">标签三</el-tag>
+          <el-tag type="warning">标签四</el-tag>
+          <el-tag type="danger">标签五</el-tag>
+        </el-col>
+      </el-row>
     </div>
 
-    <div class="article_textarea">
-      <el-input
-        type="textarea"
-        :rows="2"
-        placeholder="文章描述"
-        v-model="textarea">
-      </el-input>
+    <div class="article article_textarea">
+      <el-row>
+        <el-col>
+          <span>
+            <el-tooltip class="item" effect="dark" content="必填" placement="top-start">
+              <i>*</i>
+            </el-tooltip>
+            描述：
+          </span>
+        </el-col>
+        <el-col>
+          <el-input
+            type="textarea"
+            :rows="2"
+            placeholder="文章描述"
+            v-model="textarea">
+          </el-input>
+        </el-col>
+      </el-row>
     </div>
 
-    <div>
-      <mavon-editor v-model="value"/>
+    <div class="article article_content">
+      <el-row>
+        <el-col>
+          <span>
+            <el-tooltip class="item" effect="dark" content="必填" placement="top-start">
+              <i>*</i>
+            </el-tooltip>
+            内容：
+          </span>
+        </el-col>
+        <el-col>
+          <mavon-editor v-model="value"/>
+        </el-col>
+      </el-row>
+      <div class="submit">
+        <el-button type="primary" @click="addArticle()">添加文章</el-button>
+      </div>
     </div>
     <!-- 结束    内容部分 -->
   </div>
@@ -71,14 +131,24 @@ export default {
         this.$message.error('上传头像图片大小不能超过 2MB!')
       }
       return isJPG && isLt2M;
+    },
+    //  添加文章
+    addArticle() {
+      console.log(this.value)
     }
   }
 }
 </script>
 
 <style>
-.article_title .el-input{
-  width: calc(100% - 50px);
+.article .el-col:nth-child(1){
+  width: 100px;
+}
+.article .el-col:nth-child(2){
+  width: calc(100% - 100px);
+}
+.article .el-col span i{
+  color: red;
 }
 /* 头像部分 */
 .article_image .avatar-uploader .el-upload {
@@ -121,7 +191,7 @@ export default {
   .article_title{
     margin: 20px 0;
     span{
-      width: 50px;
+      line-height: 40px;
     }
   }
   .article_image{
@@ -132,6 +202,19 @@ export default {
   }
   .article_textarea{
     margin: 20px 0;
+  }
+  .article_content{
+    margin-bottom: 100px;
+    .submit{
+      height: 60px;
+      button{
+        margin: 20px 20px 0 0;
+        float: right;
+      }
+    }
+    .markdown-body{
+      min-height: 500px;
+    }
   }
 }
 </style>
